@@ -39,20 +39,19 @@
 
 
 import ocrolib
-import os
 
 from pylab import amin, amax, mean, ginput, ones, clip, imshow, median, ion, gray, minimum, array, clf
 from scipy.ndimage import filters, interpolation, morphology
 from scipy import stats
 import numpy as np
 
-from ..utils import print_info, print_error
-from ..constants import OCRD_TOOL
-
 from ocrd import Processor
 from ocrd_modelfactory import page_from_file
 from ocrd_models.ocrd_page import to_xml
 from ocrd_utils import getLogger, concat_padded, MIMETYPE_PAGE
+
+from ..utils import print_info, print_error
+from ..constants import OCRD_TOOL
 
 
 class OcrdAnybaseocrBinarizer(Processor):
@@ -90,8 +89,7 @@ class OcrdAnybaseocrBinarizer(Processor):
     def process(self):
         for (n, input_file) in enumerate(self.input_files):
             pcgts = page_from_file(self.workspace.download_file(input_file))
-            binImg = self.workspace.resolve_image_as_pil(
-                pcgts.get_Page().imageFilename)
+            #  binImg = self.workspace.resolve_image_as_pil(pcgts.get_Page().imageFilename)
             fname = pcgts.get_Page().imageFilename
             print_info("# %s" % (fname))
             #print_info("=== %s %-3d" % (fname))

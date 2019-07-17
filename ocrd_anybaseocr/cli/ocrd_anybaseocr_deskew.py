@@ -42,18 +42,17 @@
 #!/usr/bin/env python
 
 
-import numpy as np
 from pylab import amin, amax, linspace, mean, var, plot, ginput, ones, clip, imshow
 from scipy.ndimage import filters, interpolation, morphology
 from scipy import stats
 import ocrolib
-from ..utils import print_info
-from ..constants import OCRD_TOOL
-
 from ocrd import Processor
 from ocrd_modelfactory import page_from_file
 from ocrd_models.ocrd_page import to_xml
-from ocrd_utils import getLogger, concat_padded, MIMETYPE_PAGE
+from ocrd_utils import concat_padded
+
+from ..utils import print_info
+from ..constants import OCRD_TOOL
 
 
 class OcrdAnybaseocrDeskewer(Processor):
@@ -81,8 +80,7 @@ class OcrdAnybaseocrDeskewer(Processor):
     def process(self):
         for (n, input_file) in enumerate(self.input_files):
             pcgts = page_from_file(self.workspace.download_file(input_file))
-            binImg = self.workspace.resolve_image_as_pil(
-                pcgts.get_Page().imageFilename)
+            #  binImg = self.workspace.resolve_image_as_pil(pcgts.get_Page().imageFilename)
             param = self.parameter
             fname = pcgts.get_Page().imageFilename
             base, _ = ocrolib.allsplitext(fname)

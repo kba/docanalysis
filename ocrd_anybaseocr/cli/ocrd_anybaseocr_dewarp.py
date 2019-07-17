@@ -1,15 +1,13 @@
-import torch
 import sys
 import os
-import argparse
+import shutil
 
-from ..utils import parseXML, write_to_xml, print_info, parse_params_with_defaults, print_error
+import torch
+from ocrd import Processor
+from ocrd_modelfactory import page_from_file
+
 from ..constants import OCRD_TOOL
 
-from ocrd import Processor
-from ocrd_utils import getLogger, concat_padded
-from ocrd_modelfactory import page_from_file
-import shutil
 
 # TODO: Change the hardcoded pix2pixHD path (Currently it is a constant due to ocr-d core issue)
 
@@ -21,30 +19,14 @@ class OcrdAnybaseocrDewarper(Processor):
         kwargs['version'] = OCRD_TOOL['version']
         super(OcrdAnybaseocrDewarper, self).__init__(*args, **kwargs)
 
-    def check_cuda(self):
-        if torch.cuda.is_available():
-            return True
-        else:
-            return False
-            '''
-                        count_cuda_device = torch.cuda.device_count()
-                        print(count_cuda_device)
-                        for i in range(count_cuda_device):
-                                ss=str(i) if i==0 else ss+','+str(i) 
-                        return os.system("export CUDA_VISIBLE_DEVICES=%s" % ss)
-                        print("export CUDA_VISIBLE_DEVICES=%s" % ss)
-                        '''
-
     def process(self):
-        if self.check_cuda():
+        if torch.cuda.is_available():
             for (n, input_file) in enumerate(self.input_files):
                 pcgts = page_from_file(
                     self.workspace.download_file(input_file))
-                binImg = self.workspace.resolve_image_as_pil(
-                    pcgts.get_Page().imageFilename)
                 fname = pcgts.get_Page().imageFilename
                 img_tmp_dir = "OCR-D-IMG/test_A"
-                base = str(fname).split('.')[0]
+                #  base = str(fname).split('.')[0]
                 img_dir = os.path.dirname(str(fname))
                 path = "/home/rakshith/git/pix2pixHD"
                 # print(base,img_dir)

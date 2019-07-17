@@ -31,16 +31,15 @@
 
 
 import numpy as np
-from pylsd.lsd import lsd
 import ocrolib
 import cv2
 from PIL import Image
 
+from pylsd.lsd import lsd
 
-from ..constants import OCRD_TOOL
 
 from ocrd import Processor
-from ocrd_utils import getLogger, concat_padded
+from ocrd_utils import concat_padded
 from ocrd_modelfactory import page_from_file
 from ocrd_models.ocrd_page import (
     CoordsType,
@@ -48,6 +47,9 @@ from ocrd_models.ocrd_page import (
     to_xml
 )
 from ocrd_models.ocrd_page_generateds import BorderType
+
+from ..constants import OCRD_TOOL
+
 
 
 class OcrdAnybaseocrCropper(Processor):
